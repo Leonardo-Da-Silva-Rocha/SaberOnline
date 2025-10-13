@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SaberOnline.Aluno.Data\SaberOnline.Aluno.Data.csproj" />
+    <ProjectReference Include="..\SaberOnline.Aluno.Domain\SaberOnline.Aluno.Domain.csproj" />
+    <ProjectReference Include="..\SaberOnline.Core\SaberOnline.Core.csproj" />
+  </ItemGroup>
+
+</Project>

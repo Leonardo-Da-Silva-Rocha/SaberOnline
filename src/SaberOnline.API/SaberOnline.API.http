@@ -1,0 +1,6 @@
+@SaberOnline.API_HostAddress = http://localhost:5162
+
+GET {{SaberOnline.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
