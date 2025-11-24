@@ -13,8 +13,8 @@ namespace SaberOnline.API.Controllers
 
     [ApiController]
     public class MainController(IAppIdentityUser appIdentityUser,
-    INotificationHandler<DomainNotificacaoRaiz> notifications,
-    IMediatorHandler mediatorHandler) : ControllerBase
+       INotificationHandler<DomainNotificacaoRaiz> notifications,
+       IMediatorHandler mediatorHandler) : ControllerBase
     {
         private readonly IAppIdentityUser _appIdentityUser = appIdentityUser;
         protected readonly DomainNotificacaoHandler _notifications = (DomainNotificacaoHandler)notifications;
@@ -91,6 +91,5 @@ namespace SaberOnline.API.Controllers
                 StatusCode = (int)statusCode
             };
         }
-    
     }
 }

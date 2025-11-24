@@ -23,7 +23,7 @@ namespace SaberOnline.API.Controllers.Autenticacao
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        
+
         private readonly AppSettings _appSettings;
         private readonly ILogger _logger;
         private readonly AutenticacaoDbContext _identityContext;
@@ -58,35 +58,33 @@ namespace SaberOnline.API.Controllers.Autenticacao
                 EmailConfirmed = true
             };
 
+            var claimsToAdd = new List<Claim>();
+
+            if (registroViewModel.EhAdministrador)
+            {
+                claimsToAdd = AdicionaClaimsAdmin();
+            }
+            else
+            {
+                claimsToAdd = AdicionaClaimsAluno();
+            }
+
             var registerResult = await _userManager.CreateAsync(identitiyUser, registroViewModel.Password);
+
+            if (registerResult.Succeeded)
+            {
+                foreach (var claim in claimsToAdd)
+                {
+                    await _userManager.AddClaimAsync(identitiyUser, claim);
+                }
+            }
+
+            var sucesso = true;
 
             if (registerResult.Succeeded)
             {
                 try
                 {
-                    
-                    IdentityRole role = null;
-                    if (registroViewModel.EhAdministrador)
-                    {
-                        role = _identityContext.Roles.FirstOrDefault(x => x.Name == "Administrador");
-                    }
-                    else
-                    {
-                        role = _identityContext.Roles.FirstOrDefault(x => x.Name == "Usuario");
-                    }
-
-                    if (role != null)
-                    {
-                        _identityContext.UserRoles.Add(new IdentityUserRole<string>()
-                        {
-                            RoleId = role.Id,
-                            UserId = identitiyUser.Id
-                        });
-
-                        await _identityContext.SaveChangesAsync();
-                    }
-
-                    var sucesso = true;
 
                     if (!registroViewModel.EhAdministrador)
                     {
@@ -103,6 +101,8 @@ namespace SaberOnline.API.Controllers.Autenticacao
                             Email = registroViewModel.Email,
                             AccessToken = await GenerateJwt(registroViewModel.Email)
                         };
+
+                        await _signInManager.SignInAsync(identitiyUser, false);
 
                         return GenerateResponse(loginOutput);
                     }
@@ -164,41 +164,78 @@ namespace SaberOnline.API.Controllers.Autenticacao
 
         private async Task<string> GenerateJwt(string email, IdentityUser user = null)
         {
-            if (user == null) { user = await _userManager.FindByEmailAsync(email); }
-            var roles = await _userManager.GetRolesAsync(user);
+            // Garante que o usuário foi carregado
+            if (user == null)
+                user = await _userManager.FindByEmailAsync(email);
 
+            // 🔹 Busca todas as claims do usuário no banco (AspNetUserClaims)
+            var userClaims = await _userManager.GetClaimsAsync(user);
+
+            // 🔹 Claims padrão do token
             var claims = new List<Claim>
-        {
-            new (JwtRegisteredClaimNames.Sub, user.Id),
-            new (ClaimTypes.Name, user.UserName),
-            new (ClaimTypes.NameIdentifier, user.Id.ToString())
-        };
-
-            if (roles.Any(x => x == "Administrador"))
             {
-                claims.Add(new Claim("nivel", "Admin"));
-            }
+                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // ID único do token
+            };
 
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+            // 🔹 Adiciona as claims personalizadas do usuário
+            claims.AddRange(userClaims);
 
+            // 🔹 Criação do token JWT
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JwtSettings.Secret);
 
-            var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Issuer = _appSettings.JwtSettings.Issuer,
                 Audience = _appSettings.JwtSettings.Audience,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.JwtSettings.ExpirationInHours),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            });
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
 
-            var encodedToken = tokenHandler.WriteToken(token);
-
-            return encodedToken;
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
+        private List<Claim> AdicionaClaimsAdmin()
+        {
+            var cursos = new[] { "AD", "AT", "VI", "DS" };
+            var aulas = new[] { "AD", "AT", "RM" };
+
+            var claims = new List<Claim>();
+
+            foreach (var curso in cursos)
+            {
+                claims.Add(new Claim("Cursos", curso));
+            }
+
+            foreach (var aula in aulas)
+            {
+                claims.Add(new Claim("Aulas", aula));
+            }
+
+            return claims;
+        }
+
+        private List<Claim> AdicionaClaimsAluno()
+        {
+            var claimsToAdd = new[]
+           {
+                new Claim("Alunos", "MT"), // matricular
+                new Claim("Alunos", "RH"), // REGISTRAR HISTORICO
+                new Claim("Alunos", "CC"), //CONCLUIR CURSO
+                new Claim("Alunos", "SC"), //SOLICITAR CERTIFICADO
+                new Claim("Alunos", "PG"), //PAGAMENTO
+                
+            };
+            return claimsToAdd.ToList();
+        }
+
+       
     }
 }

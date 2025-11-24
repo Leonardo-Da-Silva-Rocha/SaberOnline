@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SaberOnline.API.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace SaberOnline.API.ViewModels
 {

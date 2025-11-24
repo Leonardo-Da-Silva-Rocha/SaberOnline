@@ -34,7 +34,6 @@ namespace SaberOnline.API.Configurations
                 options.Lockout.MaxFailedAccessAttempts = 5;
             })
             .AddEntityFrameworkStores<AutenticacaoDbContext>()
-            .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
 
             return services;

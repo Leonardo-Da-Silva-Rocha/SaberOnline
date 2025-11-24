@@ -3,7 +3,7 @@
 using FluentValidation.Results;
 namespace SaberOnline.Core.Messages
 {
-    public class CommandRaiz : IRequest<bool>
+    public abstract class CommandRaiz : IRequest<bool>
     {
         public Guid RaizAgregacao { get; internal set; }
         public DateTime DataHora { get; internal set; }
