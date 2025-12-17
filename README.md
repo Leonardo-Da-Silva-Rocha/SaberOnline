@@ -99,15 +99,28 @@ Projeto principal responsável por expor a **API REST** e orquestrar os contexto
   Utilizados para requests e responses da API.
 
 
-## Funcionalidades Implementadas
+## 📌 Funcionalidades e Contextos de Negócio
 
-- ** Autenticação e Autorização: Implementação de login e cadastro utilizando ASP.NET Identity com JWT, permitindo autenticação segura de usuários.
+A aplicação é composta por diferentes **Bounded Contexts**, cada um responsável por um conjunto específico de regras e funcionalidades.
 
-- ** Integração com Aluno: Criação automática de um registro na tabela Aluno ao cadastrar um novo usuário, garantindo o vínculo entre a identidade e a persona do sistema.
+- **BC Alunos**  
+  Gerenciamento completo do aluno, incluindo cadastro, matrícula e acompanhamento do histórico acadêmico.
 
-- ** API RESTful: Estrutura inicial configurada para exposição de endpoints e integração entre os bounded contexts.
+- **BC Conteúdo Programático**  
+  Administração de cursos e aulas, permitindo o controle estruturado do conteúdo educacional.
 
-- **Configuração de Banco de Dados: Persistência de dados com Entity Framework Core, compatível com SQL Server e SQLite.
+- **BC Pagamentos**  
+  Controle do processo de pagamento relacionado à matrícula dos alunos, incluindo status e validações.
+
+- **Autenticação e Autorização**  
+  Mecanismo de controle de acesso com diferenciação de perfis, garantindo permissões distintas para alunos e administradores.
+
+- **API RESTful**  
+  Exposição de endpoints para integração via API, com regras de acesso baseadas em autenticação e autorização.
+
+- **Documentação da API**  
+  Geração automática da documentação dos endpoints utilizando **Swagger**, facilitando o consumo e entendimento da API.
+
 
 
 ## 🧪 Testes Automatizados
