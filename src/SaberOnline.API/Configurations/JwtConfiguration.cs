@@ -15,19 +15,24 @@ namespace SaberOnline.API.Configurations
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            })
+            .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = true;
+                options.RequireHttpsMetadata = false; 
                 options.SaveToken = true;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    ValidateIssuerSigningKey = true, 
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
-                    ValidIssuer = jwtSettings.Issuer
+                    ClockSkew = TimeSpan.Zero 
                 };
             });
+
 
             return services;
         }

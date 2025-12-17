@@ -51,6 +51,125 @@ namespace SaberOnline.Aluno.Data.Migrations
 
                     b.ToTable("Alunos", (string)null);
                 });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.Certificado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataSolicitacao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MatriculaCursoId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PathCertificado")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatriculaCursoId")
+                        .IsUnique();
+
+                    b.ToTable("Certificados");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.MatriculaCurso", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DataConclusao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataMatricula")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EstadoMatricula")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NomeCurso")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.ToTable("MatriculasCursos");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.ValueObjects.HistoricoAprendizado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MatriculaCursoId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatriculaCursoId");
+
+                    b.ToTable("HistoricoAprendizado");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.Certificado", b =>
+                {
+                    b.HasOne("SaberOnline.Aluno.Domain.Entities.MatriculaCurso", "MatriculaCurso")
+                        .WithOne("Certificado")
+                        .HasForeignKey("SaberOnline.Aluno.Domain.Entities.Certificado", "MatriculaCursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MatriculaCurso");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.MatriculaCurso", b =>
+                {
+                    b.HasOne("SaberOnline.Aluno.Domain.Entities.Aluno", "Aluno")
+                        .WithMany("MatriculasCursos")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.ValueObjects.HistoricoAprendizado", b =>
+                {
+                    b.HasOne("SaberOnline.Aluno.Domain.Entities.MatriculaCurso", null)
+                        .WithMany("HistoricoAprendizado")
+                        .HasForeignKey("MatriculaCursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.Aluno", b =>
+                {
+                    b.Navigation("MatriculasCursos");
+                });
+
+            modelBuilder.Entity("SaberOnline.Aluno.Domain.Entities.MatriculaCurso", b =>
+                {
+                    b.Navigation("Certificado")
+                        .IsRequired();
+
+                    b.Navigation("HistoricoAprendizado");
+                });
 #pragma warning restore 612, 618
         }
     }

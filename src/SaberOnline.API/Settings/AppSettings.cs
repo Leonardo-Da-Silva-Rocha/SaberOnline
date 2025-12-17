@@ -9,7 +9,7 @@
     public sealed class DatabaseSettings
     {
         public string ConnectionStringIdentity { get; set; }
-        public string ConnectionStringConteudoProgramatico { get; set; }
+        public string ConnectionStringConteudo { get; set; }
         public string ConnectionStringAluno { get; set; }
         public string ConnectionStringFaturamento { get; set; }
     }

@@ -3,7 +3,10 @@ using SaberOnline.API.Settings;
 using SaberOnline.Core;
 using SaberOnline.Core.Messages;
 using SaberOnline.Aluno.Application.Configurations;
+using SaberOnline.Conteudo.Application.Configurations;
+using SaberOnline.Faturamento.Application.Configurations;
 using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,34 +15,23 @@ builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSetti
 var appSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
 
 builder.Services.AddHttpContextAccessor()
-    
+    .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+
     .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     Assembly.GetExecutingAssembly(),
     typeof(DomainNotificacaoRaiz).Assembly
 ))
     .AddScoped<IMediatorHandler, MediatorHandler>()
+
     .ConfigurarJwt(appSettings.JwtSettings)
     .ConfigurarAutenticacao(appSettings.DatabaseSettings, builder.Environment.IsProduction())
     .ConfigurarAlunoApplication(appSettings.DatabaseSettings.ConnectionStringAluno, builder.Environment.IsProduction())
+    .ConfigurarConteudoApplication(appSettings.DatabaseSettings.ConnectionStringConteudo, builder.Environment.IsProduction())
+    .ConfigurarFaturamentoApplication(appSettings.DatabaseSettings.ConnectionStringFaturamento, builder.Environment.IsProduction())
     .ConfigurarApi()
-    .ConfigurarSwagger();
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    .ConfigurarCors()
+    .AddSwaggerConfig();
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
 app.ExecutarConfiguracaoAmbiente();
 app.Run();
