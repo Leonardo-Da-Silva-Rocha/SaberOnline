@@ -164,11 +164,16 @@ A aplicação é composta por diferentes **Bounded Contexts**, cada um responsá
 - **JWT para API:** As chaves de configuração do JWT estão no `appsettings.json`.
 - **Migrações do Banco de Dados:** As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar devido a configuração do Seed de dados.
 
-## Documentação da API
+## 📄 Documentação da API
 
-A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
+A documentação da API é gerada automaticamente utilizando **Swagger**.
 
-https://localhost:7150/swagger/index.html
+Após iniciar a aplicação, a documentação pode ser acessada pelo navegador através do endpoint padrão do Swagger, normalmente disponível em:
+
+- `/swagger`
+- `/swagger/index.html`
+
+A porta pode variar de acordo com a configuração do ambiente ou da máquina onde a aplicação estiver sendo executada.
 
 
 ## 🧪 Testes
