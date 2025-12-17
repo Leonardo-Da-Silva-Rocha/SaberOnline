@@ -4,6 +4,7 @@ using SaberOnline.Core;
 using SaberOnline.Core.Messages;
 using SaberOnline.Aluno.Application.Configurations;
 using SaberOnline.Conteudo.Application.Configurations;
+using SaberOnline.Faturamento.Application.Configurations;
 using System.Reflection;
 
 
@@ -26,6 +27,7 @@ builder.Services.AddHttpContextAccessor()
     .ConfigurarAutenticacao(appSettings.DatabaseSettings, builder.Environment.IsProduction())
     .ConfigurarAlunoApplication(appSettings.DatabaseSettings.ConnectionStringAluno, builder.Environment.IsProduction())
     .ConfigurarConteudoApplication(appSettings.DatabaseSettings.ConnectionStringConteudo, builder.Environment.IsProduction())
+    .ConfigurarFaturamentoApplication(appSettings.DatabaseSettings.ConnectionStringFaturamento, builder.Environment.IsProduction())
     .ConfigurarApi()
     .ConfigurarCors()
     .AddSwaggerConfig();

@@ -8,20 +8,11 @@ using SaberOnline.Core.SharedDto;
 
 namespace SaberOnline.Conteudo.Application.Services
 {
-    public class CursoAppService : ICursoAppService
+    public class CursoAppService(IConteudoRepository cursoRepository) : ICursoAppService
     {
-        private readonly IMapper _mapper;
-
-        private readonly IConteudoRepository _cursoRepository;
-
-        public CursoAppService(IMapper mapper, IConteudoRepository cursoRepository)
-        {
-            _mapper = mapper;
-            _cursoRepository = cursoRepository;
-        }
+        private readonly IConteudoRepository _cursoRepository = cursoRepository;
 
         public async Task<Guid> CadastrarCursoAsync(CadastroCursoDto dto)
-
         {
             if (await _cursoRepository.ExisteCursoComMesmoNomeAsync(dto.Nome)) { throw new DomainException("Já existe um curso cadastrado com esse nome."); }
 
@@ -47,7 +38,7 @@ namespace SaberOnline.Conteudo.Application.Services
             curso.AlterarNome(dto.Nome);
             curso.AlterarValor(dto.Valor);
             curso.AlterarValidadeCurso(dto.ValidoAte);
-            //curso.AlterarConteudoProgramatico(new ConteudoProgramatico(dto.Finalidade, dto.Ementa));
+            
             curso.AtualizarConteudoProgramatico(dto.Finalidade, dto.Ementa);
             if (dto.Ativo) { curso.AtivarCurso(); }
             else { curso.DesativarCurso(); }
@@ -108,7 +99,6 @@ namespace SaberOnline.Conteudo.Application.Services
                   .ToList()
             };
         }
-
         #endregion
     }
 }

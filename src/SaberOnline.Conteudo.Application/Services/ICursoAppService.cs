@@ -1,6 +1,6 @@
 ﻿using SaberOnline.Conteudo.Application.ViewModels;
 using SaberOnline.Core.SharedDto;
-using System.Threading.Tasks;
+
 
 namespace SaberOnline.Conteudo.Application.Services
 {

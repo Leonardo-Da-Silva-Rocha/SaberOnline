@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using SaberOnline.Core.Messages.AlunoCommands;
 
-namespace Plataforma.Educacao.Aluno.Application.Commands.SolicitarCertificado;
+namespace SaberOnline.Aluno.Application.Commands.SolicitarCertificado;
 public class SolicitarCertificadoCommandValidator : AbstractValidator<SolicitarCertificadoCommand>
 {
     public SolicitarCertificadoCommandValidator()

@@ -44,10 +44,11 @@ public class FaturamentoConfiguration : IEntityTypeConfiguration<Pagamento>
             .HasColumnType(DatabaseTypeConstant.SmallDateTime);
 
         builder.Property(c => c.CodigoConfirmacaoPagamento)
-            .HasColumnName("CodigoConfirmacaoPagamento")
-            .HasColumnType(DatabaseTypeConstant.Varchar)
-            .HasMaxLength(100)
-            .UseCollation(DatabaseTypeConstant.Collate);
+        .HasColumnName("CodigoConfirmacaoPagamento")
+        .HasColumnType(DatabaseTypeConstant.Varchar)
+        .HasMaxLength(100)
+        .UseCollation(DatabaseTypeConstant.Collate)
+        .IsRequired(false); 
 
         builder.OwnsOne(c => c.Cartao, cc =>
         {
@@ -55,30 +56,27 @@ public class FaturamentoConfiguration : IEntityTypeConfiguration<Pagamento>
                 .HasColumnName("NumeroCartao")
                 .HasColumnType(DatabaseTypeConstant.Varchar)
                 .HasMaxLength(16)
-                .UseCollation(DatabaseTypeConstant.Collate)
-                .IsRequired();
+                .UseCollation(DatabaseTypeConstant.Collate);
 
             cc.Property(c => c.NomeTitular)
                 .HasColumnName("NomeTitularCartao")
                 .HasColumnType(DatabaseTypeConstant.Varchar)
                 .HasMaxLength(50)
-                .UseCollation(DatabaseTypeConstant.Collate)
-                .IsRequired();
+                .UseCollation(DatabaseTypeConstant.Collate);
 
             cc.Property(c => c.Validade)
                 .HasColumnName("ValidadeCartao")
                 .HasColumnType(DatabaseTypeConstant.Varchar)
                 .HasMaxLength(5)
-                .UseCollation(DatabaseTypeConstant.Collate)
-                .IsRequired();
+                .UseCollation(DatabaseTypeConstant.Collate);
 
             cc.Property(c => c.CVV)
                 .HasColumnName("CVVCartao")
                 .HasColumnType(DatabaseTypeConstant.Varchar)
                 .HasMaxLength(3)
-                .UseCollation(DatabaseTypeConstant.Collate)
-                .IsRequired();
+                .UseCollation(DatabaseTypeConstant.Collate);
         });
+
 
         builder.OwnsOne(c => c.StatusPagamento, sp =>
         {

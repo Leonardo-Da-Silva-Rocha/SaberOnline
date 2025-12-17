@@ -1,9 +1,9 @@
 ﻿
-using Plataforma.Educacao.Core.Extensions;
 using SaberOnline.Aluno.Application.DTO;
 using SaberOnline.Aluno.Application.Interfaces;
 using SaberOnline.Aluno.Domain.Interfaces;
 using SaberOnline.Aluno.Domain.ValueObjects;
+using SaberOnline.Core.Extensions;
 using SaberOnline.Core.SharedDto;
 
 namespace SaberOnline.Aluno.Application.Queries;

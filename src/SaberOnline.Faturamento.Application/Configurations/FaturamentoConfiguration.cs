@@ -16,7 +16,7 @@ using SaberOnline.Messages.Comunications.FaturamentoCommands;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace SaberOnline.Application.Application.Configurations;
+namespace SaberOnline.Faturamento.Application.Configurations;
 
 [ExcludeFromCodeCoverage]
 public static class FaturamentoConfiguration

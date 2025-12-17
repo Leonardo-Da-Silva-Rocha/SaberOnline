@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SaberOnline.Application.Application.Commands.RealizarPagamento;
 using SaberOnline.Core.Messages;
+using SaberOnline.Core.Messages.FaturamentoEvents;
 using SaberOnline.Faturamento.Domain.Entities;
 using SaberOnline.Faturamento.Domain.Interfaces;
 using SaberOnline.Faturamento.Domain.ValueObjects;
@@ -17,22 +18,48 @@ public class RealizarPagamentoCommandHandler(IFaturamentoRepository faturamentoR
     public async Task<bool> Handle(RealizarPagamentoCommand request, CancellationToken cancellationToken)
     {
         _raizAgregacao = request.RaizAgregacao;
-        if (!ValidarRequisicaoAsync(request)) { return false; }
-        if (!ObterPagamentoMatriculaCurso(request.MatriculaCursoId, out Pagamento pagamento)) { return false; }
-       
-        if (!ValidarValorPagamentoMatriculaCurso(request.Valor, pagamento?.Valor ?? request.MatriculaCursoDto.Valor)) { return false; }
+
+        if (!ValidarRequisicaoAsync(request))
+            return false;
+
+        if (!ObterPagamentoMatriculaCurso(request.MatriculaCursoId, out Pagamento pagamento))
+            return false;
+
+        if (!ValidarValorPagamentoMatriculaCurso(request.Valor, pagamento?.Valor ?? request.MatriculaCursoDto.Valor))
+            return false;
 
         if (!request.MatriculaCursoDto.PagamentoPodeSerRealizado)
         {
-            await _mediatorHandler.PublicarNotificacaoDominio(new DomainNotificacaoRaiz(_raizAgregacao, nameof(Pagamento), "Matricula não permite pagamento. Entre em contato com nosso SAC"));
+            await _mediatorHandler.PublicarNotificacaoDominio(
+                new DomainNotificacaoRaiz(_raizAgregacao, nameof(Pagamento),
+                "Matricula não permite pagamento. Entre em contato com nosso SAC"));
             return false;
         }
 
         bool ehInclusaoPagamento = pagamento == null;
-        var dadosCartao = new DadosCartao(request.NumeroCartao, request.NomeTitularCartao, request.ValidadeCartao, request.CvvCartao);
-        pagamento ??= new Pagamento(request.MatriculaCursoId, request.Valor, DateTime.Now.Date);
 
+        var dadosCartao = new DadosCartao(
+            request.NumeroCartao,
+            request.NomeTitularCartao,
+            request.ValidadeCartao,
+            request.CvvCartao);
+
+       
+        if (ehInclusaoPagamento)
+        {
+            pagamento = new Pagamento(request.MatriculaCursoId, request.Valor, DateTime.Now.Date);
+            await _faturamentoRepository.AdicionarAsync(pagamento);
+        }
+
+        
         await _faturamentoRepository.UnitOfWork.Commit();
+
+        await _mediatorHandler.PublicarEvento(new PagamentoConfirmadoEvent(
+         request.MatriculaCursoId,
+         request.MatriculaCursoDto.AlunoId,
+         request.MatriculaCursoDto.CursoId,
+         true ));
+
 
         return true;
     }

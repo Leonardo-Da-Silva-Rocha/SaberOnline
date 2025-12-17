@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Plataforma.Educacao.Aluno.Application.Commands.SolicitarCertificado;
 using SaberOnline.Aluno.Domain.Interfaces;
 using SaberOnline.Core.Messages;
 using SaberOnline.Core.Messages.AlunoCommands;

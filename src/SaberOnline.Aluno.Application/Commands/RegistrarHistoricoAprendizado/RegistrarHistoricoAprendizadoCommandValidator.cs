@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using SaberOnline.Core.Messages.Comunications.AlunoCommands;
 
-namespace Plataforma.Educacao.Aluno.Application.Commands.RegistrarHistoricoAprendizado;
+namespace SaberOnline.Aluno.Application.Commands.RegistrarHistoricoAprendizado;
 public class RegistrarHistoricoAprendizadoCommandValidator : AbstractValidator<RegistrarHistoricoAprendizadoCommand>
 {
     public RegistrarHistoricoAprendizadoCommandValidator()

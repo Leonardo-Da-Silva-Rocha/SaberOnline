@@ -25,6 +25,8 @@
     <ProjectReference Include="..\SaberOnline.Autenticacao.Data\SaberOnline.Autenticacao.Data.csproj" />
     <ProjectReference Include="..\SaberOnline.Conteudo.Application\SaberOnline.Conteudo.Application.csproj" />
     <ProjectReference Include="..\SaberOnline.Core\SaberOnline.Core.csproj" />
+    <ProjectReference Include="..\SaberOnline.Faturamento.Application\SaberOnline.Faturamento.Application.csproj" />
+    <ProjectReference Include="..\SaberOnline.Faturamento.Data\SaberOnline.Faturamento.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

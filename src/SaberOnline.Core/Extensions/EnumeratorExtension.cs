@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Plataforma.Educacao.Core.Extensions;
+namespace SaberOnline.Core.Extensions;
 public static class EnumeratorExtension
 {
     public static string GetDescription(this Enum value)

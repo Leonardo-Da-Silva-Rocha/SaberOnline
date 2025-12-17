@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Plataforma.Educacao.Aluno.Application.Commands.RegistrarHistoricoAprendizado;
-
 using SaberOnline.Aluno.Domain.Entities;
 using SaberOnline.Aluno.Domain.Interfaces;
 using SaberOnline.Aluno.Domain.ValueObjects;
