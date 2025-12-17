@@ -144,17 +144,26 @@ A solução possui **cobertura completa de testes unitários**, garantindo confi
 
 ### **Passos para Execução**
 
-1. **Clone o Repositório:**
-   em min
+1. **Clone o Repositório:**  
+
    - `https://github.com/Leonardo-Da-Silva-Rocha/SaberOnline.git`
 
-2. **Configuração do Banco de Dados:**
+2. **Configuração do Banco de Dados:**  
    
-   - No arquivo appsettings.json, você pode escolher qual banco de dados utilizar
+   - No arquivo `appsettings.json`, é possível escolher qual banco de dados utilizar.
    
-   - SQLite (padrão) A string de conexão para SQLite já está configurada por padrão. O banco de dados será gerado automaticamente.
+   - **SQLite (padrão):** a string de conexão para SQLite já está configurada.  
+     O banco de dados será criado automaticamente na primeira execução da aplicação.
 	
-   - Caso prefira usar o SQL Server, altere a string de conexão.
+   - **SQL Server (opcional):** caso prefira utilizar SQL Server, basta alterar a string de conexão.
+
+3. **Executar a API:**  
+   
+   - No Visual Studio, selecione o projeto **SaberOnline.API** como projeto de inicialização.
+   
+   - Execute a aplicação.  
+     O **seed de dados configurado será executado automaticamente**, criando a estrutura do banco e os dados iniciais necessários.
+
 
 4. **Executar a API:**
    
