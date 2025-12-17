@@ -22,6 +22,7 @@ public class FaturamentoController(IAppIdentityUser appIdentityUser,
     private readonly IAlunoQueryService _alunoQueryService = alunoQueryService;
 
     [ClaimsAuthorize("Alunos", "PG")]
+    [HttpPost("{alunoId}/registrar-pagamento")]
     public async Task<IActionResult> RealizarPagamento(Guid alunoId, RealizarPagamentoViewModel pagamentoViewModel)
     {
         if (!ModelState.IsValid) { return GenerateModelStateResponse(ResponseTypeEnum.ValidationError, HttpStatusCode.BadRequest, ModelState); }
