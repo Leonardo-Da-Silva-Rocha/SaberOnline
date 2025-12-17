@@ -121,18 +121,6 @@ A aplicação é composta por diferentes **Bounded Contexts**, cada um responsá
 - **Documentação da API**  
   Geração automática da documentação dos endpoints utilizando **Swagger**, facilitando o consumo e entendimento da API.
 
-
-
-## 🧪 Testes Automatizados
-
-A solução possui **cobertura completa de testes unitários**, garantindo confiabilidade e segurança na evolução do código.
-
-- ✅ **100% dos Commands, Handlers, Entidades e Value Objects** possuem testes unitários.
-- ✅ **Event Handlers** testados com **simulação de integração**, validando cenários reais de execução.
-- ✅ **Consultas (Queries)** implementadas com **mocks** e **validação de retorno**, garantindo consistência dos dados.
-- ✅ Testes focados em regras de negócio, validações e fluxos críticos da aplicação.
-
-
 ## **Como Executar o Projeto**
 
 ### **Pré-requisitos**
@@ -181,3 +169,13 @@ A solução possui **cobertura completa de testes unitários**, garantindo confi
 A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
 
 https://localhost:7150/swagger/index.html
+
+
+## 🧪 Testes
+
+A solução possui **cobertura completa de testes unitários**, garantindo confiabilidade e segurança na evolução do código.
+
+- ✅ **100% dos Commands, Handlers, Entidades e Value Objects** possuem testes unitários.
+- ✅ **Event Handlers** testados com **simulação de integração**, validando cenários reais de execução.
+- ✅ **Consultas (Queries)** implementadas com **mocks** e **validação de retorno**, garantindo consistência dos dados.
+- ✅ Testes focados em regras de negócio, validações e fluxos críticos da aplicação.
