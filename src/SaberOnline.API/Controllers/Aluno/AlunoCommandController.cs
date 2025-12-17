@@ -16,7 +16,6 @@ using SaberOnline.Core.Messages.Comunications.AlunoCommands;
 
 namespace SaberOnline.API.Controllers.Aluno;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public partial class AlunoController(ICursoAppService cursoAppService,
@@ -30,7 +29,7 @@ public partial class AlunoController(ICursoAppService cursoAppService,
     private readonly IAlunoQueryService _alunoQueryService = alunoQueryService;
     private readonly IMapper _mapper = mapper;
 
-   
+    [ClaimsAuthorize("Alunos", "MT")]
     [HttpPost("{alunoId}/matricular-aluno")]
     public async Task<IActionResult> MatricularAluno(Guid alunoId, MatricularCursoViewModel matriculaCursoViewModel)
     {
@@ -62,7 +61,7 @@ public partial class AlunoController(ICursoAppService cursoAppService,
         }
     }
 
-    
+    [ClaimsAuthorize("Alunos", "RH")]
     [HttpPost("{alunoId}/registrar-historico-aprendizado")]
     public async Task<IActionResult> RegistrarHistoricoAprendizado(RegistrarHistoricoAprendizadoViewModel viewModel)
     {
@@ -108,6 +107,7 @@ public partial class AlunoController(ICursoAppService cursoAppService,
     }
 
     
+    [ClaimsAuthorize("Alunos", "CC")]
     [HttpPut("{alunoId}/concluir-curso")]
     public async Task<IActionResult> ConcluirCurso(ConcluirCursoViewModel viewModel)
     {
@@ -146,6 +146,7 @@ public partial class AlunoController(ICursoAppService cursoAppService,
     }
 
     
+    [ClaimsAuthorize("Alunos", "SC")]
     [HttpPost("{alunoId}/solicitar-certificado")]
     public async Task<IActionResult> SolicitarCertificado(SolicitarCertificadoViewModel viewModel)
     {

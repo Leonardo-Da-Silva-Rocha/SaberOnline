@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SaberOnline.API.Autentications;
 using SaberOnline.API.Enumerators;
 using SaberOnline.API.ViewModels;
 using SaberOnline.Core.SharedDto;
@@ -10,6 +11,8 @@ namespace SaberOnline.API.Controllers.Aluno;
 public partial class AlunoController
 {
     
+    [ClaimsAuthorize("Alunos", "GT")]
+    [ClaimsAuthorize("Admin", "GT")]
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterAlunoPorId(Guid id)
     {
@@ -19,7 +22,8 @@ public partial class AlunoController
         return GenerateResponse(_mapper.Map<AlunoViewModel>(aluno));
     }
 
-    
+    [ClaimsAuthorize("Alunos", "GT")]
+    [ClaimsAuthorize("Admin", "GT")]
     [HttpGet("{id}/evolucao")]
     public async Task<IActionResult> ObterEvolucaoMatriculasCursoDoAlunoPorIdAsync(Guid id)
     {
@@ -29,7 +33,8 @@ public partial class AlunoController
         return GenerateResponse(_mapper.Map<EvolucaoAlunoViewModel>(aluno));
     }
 
-   
+    [ClaimsAuthorize("Alunos", "GT")]
+    [ClaimsAuthorize("Admin", "GT")]
     [HttpGet("{id}/todas-matriculas")]
     public async Task<IActionResult> ObterMatriculasPorAlunoId(Guid id)
     {
@@ -39,7 +44,8 @@ public partial class AlunoController
         return GenerateResponse(_mapper.Map<IEnumerable<MatriculaCursoViewModel>>(matriculas));
     }
 
-   
+    [ClaimsAuthorize("Alunos", "GT")]
+    [ClaimsAuthorize("Admin", "GT")]
     [HttpGet("matricula/{matriculaId}/certificado")]
     public async Task<IActionResult> ObterCertificadoPorMatriculaId(Guid matriculaId)
     {
@@ -49,7 +55,8 @@ public partial class AlunoController
         return GenerateResponse(_mapper.Map<CertificadoViewModel>(certificado));
     }
 
-    
+    [ClaimsAuthorize("Alunos", "GT")]
+    [ClaimsAuthorize("Admin", "GT")]
     [HttpGet("aulas/{matriculaId}")]
     public async Task<IActionResult> ObterAulasPorMatriculaId(Guid matriculaId)
     {
