@@ -219,6 +219,8 @@ namespace SaberOnline.API.Controllers.Autenticacao
                 claims.Add(new Claim("Aulas", aula));
             }
 
+            claims.Add(new Claim("Admin", "GT"));
+
             return claims;
         }
 
@@ -231,11 +233,11 @@ namespace SaberOnline.API.Controllers.Autenticacao
                 new Claim("Alunos", "CC"), //CONCLUIR CURSO
                 new Claim("Alunos", "SC"), //SOLICITAR CERTIFICADO
                 new Claim("Alunos", "PG"), //PAGAMENTO
+                new Claim("Alunos", "GT"), //BUSCAR INFORMAÇÕES
                 
             };
             return claimsToAdd.ToList();
         }
 
-       
     }
 }
